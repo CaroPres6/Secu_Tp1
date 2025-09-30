@@ -1,0 +1,6 @@
+5 - Réflexion
+    1. 
+
+    2. 
+    
+    3. Nous n'avons pas besoin de faire des listes contenant chaque clé : valeur, ce qui facilite...?
