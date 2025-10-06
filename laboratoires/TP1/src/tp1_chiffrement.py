@@ -9,7 +9,7 @@ def create_permutation():
 
 permutation = create_permutation()
 
-text = "HelloWorldThisismyplaintext"
+text = "helloworldthisismyplaintext"
 shift = 3
 
 def encrypt(text,shift,permutation):
@@ -33,12 +33,6 @@ def encrypt(text,shift,permutation):
     return ciphertext
 
 
-
-""" cipher = encrypt(text, shift, permutation)
-print(cipher)
-plain = decrypt(cipher, shift, permutation)
-print(plain) """
-
 def decrypt(cipher, shift, permutation):
     plaintext = ""
     # Inverser permu.
@@ -50,8 +44,16 @@ def decrypt(cipher, shift, permutation):
             original = chr((ord(non_permuted) - ord('a') - shift) % 26 + ord('a'))
             plaintext += original
         elif char.isupper():
+            char_lower = char.lower()
+            non_permuted = permu_reverse[char_lower]
             original = chr((ord(non_permuted) - ord('A') - shift) % 26 + ord('A'))
             plaintext += original
         else: 
             plaintext += char
     return plaintext
+
+
+cipher = encrypt(text, shift, permutation)
+print(cipher)
+plain = decrypt(cipher, shift, permutation)
+print(plain)

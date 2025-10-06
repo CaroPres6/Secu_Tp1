@@ -1,6 +1,22 @@
-5 - Réflexion
+Pt 1.5. - Réflexion
+    1. Ce chiffrement est exponentionnellement plus difficile qu'un simple césar.
+        En effet, césar a seulement 26 possibilités de shifts ce qui est relativement simple a déchiffrer. 
+        Tandis que cette méthode utilise ces 26 shifts avec une permutation.
+        À cause de la permutation, même s'il existait des ordinateurs assez puissants,
+        ça prendrait beaucoup trop de temps pour déchiffrer les mots de passes.
+
+    2. L'analyse de fréquence pourrait permettre de découvrir certaies lettres,
+        car les lettres vont toujours avoir la même lettre de correspondance dans le dictionnaire. 
+        Donc, par exemple, si on prend la lettre 'e' sa fréquence est élevée tant en français qu'en anglais. 
+        Alors, c'est assez simple de reconnaître si le 'e' équivaut au 'k' dans le dictionnaire.
+    
+    3. Nous n'avons pas besoin de faire des listes contenant chaque clé : valeur, ce qui facilite grandement l'implémentation.
+        En effet, ça permet de ne pas compliquer les choses avec des index.
+
+
+Pt 2.5. 
     1. 
 
-    2. 
-    
-    3. Nous n'avons pas besoin de faire des listes contenant chaque clé : valeur, ce qui facilite...?
+    2.
+
+    3. 
