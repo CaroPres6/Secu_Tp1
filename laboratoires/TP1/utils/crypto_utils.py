@@ -1,5 +1,6 @@
 import random
 import os
+import csv
 import sys
 from pathlib import Path
 
@@ -60,3 +61,19 @@ def pt_1():
         print('Login réussi')
     else:
         print('Login échoué')
+
+def load_pw_from_csv(filename):
+    pwds = []
+    filepath = os.path.join(os.path.dirname(__file__), '..', 'data', filename)
+
+    with open(filepath, 'r', encoding='utf-8') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            # Prendre seulement la colonne 'password'
+            pwd = row['password'].strip()
+            if pwd:
+                pwds.append(pwd)
+    
+    return pwds
+# tester la fonction
+pwd_list = load_pw_from_csv('passwords_plain.csv')
