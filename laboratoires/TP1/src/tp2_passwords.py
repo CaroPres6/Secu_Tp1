@@ -97,8 +97,6 @@ def attack_rainbow_table():
         if check_login(username, pwd, usrs_db, mode='hash_mode'):
             hacked_pwds[username] = pwd
             print(f'Hash piraté pour {username} : {pwd}')
-    
-    print(f"Total de hash piratés : {len(hacked_pwds)}")
     return hacked_pwds
 
 # appel fonction pour la partie 3
