@@ -1,6 +1,4 @@
 import random
-import os
-import csv
 import sys
 from pathlib import Path
 
@@ -9,7 +7,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from utils.auth import load_csv, check_login, hash_password
 
-# tp1 chiffrement
 def create_permutation():
     alphabet = [chr(ord('a') + a) for a in range(26)]
     alpha_shuffled = alphabet.copy()
@@ -52,28 +49,3 @@ def decrypt(cipher, shift, permutation):
         else: 
             plaintext += char
     return plaintext
-
-# tp2 passwords
-def pt_1():
-    # accède au répertoire et construit le chemin jusqu'au fichier voulu
-    users_db = load_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_plain.csv'))
-    if check_login('user02','mchawks0018@aim.com', users_db, mode='password_only'):
-        print('Login réussi')
-    else:
-        print('Login échoué')
-
-def load_pw_from_csv(filename):
-    pwds = []
-    filepath = os.path.join(os.path.dirname(__file__), '..', 'data', filename)
-
-    with open(filepath, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            # Prendre seulement la colonne 'password'
-            pwd = row['password'].strip()
-            if pwd:
-                pwds.append(pwd)
-    
-    return pwds
-# tester la fonction
-pwd_list = load_pw_from_csv('passwords_plain.csv')
