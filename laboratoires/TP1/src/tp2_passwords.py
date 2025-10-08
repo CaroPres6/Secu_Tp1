@@ -106,8 +106,53 @@ hacked3 = attack_rainbow_table()
 print('Fin de la partie 3')
 
 # fonctions pour la partie 4
+def create_pwds_salty_hash_csv():
+    input_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_plain.csv')
+    output_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_salty_hash.csv')
+    
+    usrs = load_csv(input_file)
+    
+    with open(output_file, 'w', newline='', encoding='utf-8') as f:
+        fieldnames = ['username', 'salt', 'salty_hash']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for usr in usrs:
+            username = usr['username']
+            password = usr['password']
+            salt, hashed = hash_password(password, salt=True)
+            hex_salt = salt.hex()
+            writer.writerow({'username': username, 'salt': hex_salt, 'salty_hash': hashed})
 
+def salty_attack_rainbow_table():
+    usrs_db = load_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_salty_hash.csv'))
+    
+    myspace_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'myspace.txt')
+    with open(myspace_file, 'r', encoding='utf-8') as f:
+        myspace_pwds = [line.strip() for line in f if line.strip()]
+    
+    hacked_pwds = {}
+    
+    for usr, pwd in itertools.product(usrs_db, myspace_pwds):
+        username = usr['username']
+        
+        if username in hacked_pwds:
+            continue
+        
+        hex_salt = usr['salt']
+        salt = bytes.fromhex(hex_salt)
+        usr_hash = usr['salty_hash']
+        
+        import hashlib
+        hash_to_test = hashlib.sha256(salt + pwd.encode()).hexdigest()
+        
+        if hash_to_test == usr_hash:
+            hacked_pwds[username] = pwd
+            print(f'Hash salé piraté pour {username} : {pwd}')
+    
+    return hacked_pwds
 # appel fonction pour la partie 4
 print('Début de la partie 4')
-
+create_pwds_salty_hash_csv()
+hacked4 = salty_attack_rainbow_table()
 print('Fin de la partie 4')
