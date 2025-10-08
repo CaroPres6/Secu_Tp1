@@ -9,7 +9,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 
 from utils.auth import load_csv, check_login, hash_password
-from utils.crypto_utils import pt_1, load_pw_from_csv, brute_force
 
 # fonction partie 1
 def pt_1():
@@ -19,8 +18,12 @@ def pt_1():
         print('Login réussi')
     else:
         print('Login échoué')
+
 # appel fonction pour la partie 1
+print('Début de la partie 1')
 pt_1()
+print('Fin de la partie 1')
+
 # fonctions partie 2
 def brute_force():
     users_db = load_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_plain.csv'))
@@ -50,13 +53,63 @@ def load_pw_from_csv(filename):
             pwd = row['password'].strip()
             if pwd:
                 pwds.append(pwd)
-    
     return pwds
-# partie 2
-hacked = brute_force()
 
-## avec salt impossible trouver password
+# appel fonction pour la partie 2
+print('Début de la partie 2')
+hacked2 = brute_force()
+print('Fin de la partie 2')
 
+# fonction pour la partie 3
+def create_pwds_hash_csv():
+    input_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_plain.csv')
+    output_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_hash.csv')
+    
+    usrs = load_csv(input_file)
+    
+    with open(output_file, 'w', newline='', encoding='utf-8') as f:
+        fieldnames = ['username', 'hashed']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for usr in usrs:
+            username = usr['username']
+            password = usr['password']
+            hashed = hash_password(password)
+            writer.writerow({'username': username, 'hashed': hashed})
+    print(f"Hash écrits dans : {output_file}")
+          
+def attack_rainbow_table():
+    usrs_db = load_csv(os.path.join(os.path.dirname(__file__), '..', 'data', 'passwords_hash.csv'))
+    
+    myspace_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'myspace.txt')
+    with open(myspace_file, 'r', encoding='utf-8') as f:
+        myspace_pwds = [line.strip() for line in f if line.strip()]
+    
+    hacked_pwds = {}
+    
+    for usr, pwd in itertools.product(usrs_db, myspace_pwds):
+        username = usr['username']
+        
+        if username in hacked_pwds:
+            continue
+        
+        if check_login(username, pwd, usrs_db, mode='hash_mode'):
+            hacked_pwds[username] = pwd
+            print(f'Hash piraté pour {username} : {pwd}')
+    
+    print(f"Total de hash piratés : {len(hacked_pwds)}")
+    return hacked_pwds
 
+# appel fonction pour la partie 3
+print('Début de la partie 3')
+create_pwds_hash_csv()
+hacked3 = attack_rainbow_table()
+print('Fin de la partie 3')
 
-# compare pw myspace avec pw plain
+# fonctions pour la partie 4
+
+# appel fonction pour la partie 4
+print('Début de la partie 4')
+
+print('Fin de la partie 4')
