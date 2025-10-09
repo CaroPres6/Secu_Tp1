@@ -15,8 +15,16 @@ Pt 1.5. - Réflexion
 
 
 Pt 2.5. 
-    1. 
+    1. Les mots de passes hachés avec sel résistent mieux aux attaques par rainbow table,
+        car le sel est une valeur aléatoire de 16 bytes stockés sous forme hexadécimale. 
+        C'est unique pour chaque utilisateur. Donc, même s'il y a 2 utilisateurs qui ont le même mot de passe,
+        leur hashage va être différent à cause du sel. La rainbow table a déjà des hash prédéterminés 
+        dans une base de données, mais le sel est imprévisible, alors l'attaque devrait être recalculée complètement.
 
-    2.
+    2. La force brute sur des mots de passe hachés est inefficace,car chaque tentative demande un calcul de hachage (SHA-256), 
+        ce qui prend beaucoup de temps de traitement. De plus, le champ de recherche est immense. 
+        Par exemple, un mot de passe de 8 caractères peut engendrer des milliards de combinaisons possibles, rendant quasi impossible une tentative d'intrusion.
 
-    3. 
+    3. Cet exercice montre que le sel est d'une importance primordiale. En effet, grâce au fait qu'il est si aléatoire et imprévisble,
+        ça permet de rendre beaucoup plus difficile les tentatives de piratages par les attaquants. Les fonctions de hachage sécurisées sont également 
+        importantes dans les systèmes de login, car elles sont irréversibles. Donc, elles renforcent encore plus la sécurité des mots de passes.
